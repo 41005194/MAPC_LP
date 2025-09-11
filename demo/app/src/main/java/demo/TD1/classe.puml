@@ -1,0 +1,22 @@
+@!include Téléchargements/commons.style
+@startuml dc_example
+interface Document {
++ titre(): String
++ taille(): int
+}
+class Mémoire implements Document {
+1
+- titre: String
++ {static} this(titre: String, chapitres: List<Chapitre>)
++ titre(): String
++ taille(): int
+}
+class Chapitre implements Document {
+- titre: String
+- pages: String[*]
++ {static} this(titre: String, pages: String[*])
++ titre(): String
++ taille(): int
+}
+Mémoire *--> "- cs *" Chapitre
+@endum

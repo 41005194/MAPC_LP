@@ -1,0 +1,35 @@
+@startuml C5Model
+
+class Ampoule implements IAmpoule{
+    {static} + this() // this.e = new EtatEteinte()
+    + allumer() () (+ ActionIllegale)// this.e = e.allumer()
+    + eteindre() () (+ ActionIllegale)// this.e = e.eteindre()
+}
+
+Ampoule *-> "-e" EtatAmpoule
+
+interface IAmpoule {
+    + allumer(): () (+ ActionIllegale)
+    + eteindre(): () (+ ActionIllegale)
+}
+
+interface EtatAmpoule {
+    + allumer(): EtatAmpoule (+ ActionIllegale)
+    + eteindre(): EtatAmpoule (+ ActionIllegale)
+}
+
+class EtatAllumee implements EtatAmpoule {
+    + allumer(): EtatAmpoule (+ ActionIllegale) // lever new ActionIllegale(msg)
+    + eteindre(): EtatAmpoule (+ ActionIllegale) // action + return new EtatEteinte()
+}
+
+class EtatEteinte implements EtatAmpoule {
+    + allumer(): EtatAmpoule (+ ActionIllegale) // action + return new EtatAllumee()
+    + eteindre(): EtatAmpoule (+ ActionIllegale) // lever new ActionIllegale(msg)
+}
+
+class ActionIllegale extends Exception {
+    {static} + this(info: String)
+}
+
+@enduml
